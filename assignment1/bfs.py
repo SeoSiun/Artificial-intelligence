@@ -15,7 +15,7 @@ class State:
 
         for i in range(0, n):
             for j in range(i+1, n):
-                print("(",i,",",self.queen[i],") (",j,",",self.queen[j],")")
+          
                 if self.queen[i] == self.queen[j] or abs(self.queen[i]-self.queen[j])==abs(j-i):
                     return False
                 else: continue
@@ -40,11 +40,12 @@ def solve(n):
         state = queue.pop(0)
 
         if len(state.queen) == n:
+           
             if state.isGoal(n):
                 print("find goal!!")
                 return state.toString(n)
         else:
-            print("expand")
+          
             # expand
             for i in range(0, n):
                 queue.append(state.getNextState(i))
