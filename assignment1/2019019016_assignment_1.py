@@ -9,9 +9,6 @@ def main():
         input = fInput.readline()
         if not input: break
 
-        ####
-        print(input)
-
         N = int(input.split(' ')[0])
         algorithm = input.split(' ')[1].rstrip('\n')
 
@@ -25,7 +22,6 @@ def main():
         elif algorithm == "csp":
             goal = csp.solve(N)
 
-        ####
         print(goal)
 
         # write output file 

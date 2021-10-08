@@ -1,20 +1,21 @@
 
 class State:
-    def __init__(self, queen):
+    def __init__(self, queen, n):
         self.queen = queen
+        self.n = n
 
     def getNextState(self, pos):
         newQueen = self.queen.copy()
         newQueen.append(pos)
 
-        return State(newQueen)
+        return State(newQueen, self.n)
 
-    def isGoal(self, n):
-        if len(self.queen) < n:
+    def isGoal(self):
+        if len(self.queen) < self.n:
             return False
 
-        for i in range(0, n):
-            for j in range(i+1, n):
+        for i in range(0, self.n):
+            for j in range(i+1, self.n):
           
                 if self.queen[i] == self.queen[j] or abs(self.queen[i]-self.queen[j])==abs(j-i):
                     return False
@@ -22,28 +23,24 @@ class State:
 
         return True
 
-    def toString(self, n):
+    def toString(self):
         goal = ""
-        for i in range(0, n):
+        for i in range(0, self.n):
             goal = goal + str(self.queen[i]+1) + " "
-        return goal
-            
-            
+        return goal              
         
-
 def solve(n):
     if n==0: return "no solution"
     queue = []
-    queue.append(State([]))
+    queue.append(State([], n))
 
     while len(queue) > 0:
         state = queue.pop(0)
 
         if len(state.queen) == n:
            
-            if state.isGoal(n):
-                print("find goal!!")
-                return state.toString(n)
+            if state.isGoal():
+                return state.toString()
         else:
           
             # expand
