@@ -48,7 +48,7 @@ class State:
             goal = goal + str(self.queen[i]+1) + " "
         return goal   
 
-def solve(n):
+def hc(n):
     if n==0 : return "no solution"
     state = State(n)
 

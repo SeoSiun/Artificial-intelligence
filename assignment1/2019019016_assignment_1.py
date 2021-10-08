@@ -16,11 +16,11 @@ def main():
 
         # find goal
         if algorithm == "bfs":
-            goal = bfs.solve(N)
+            goal = bfs.bfs(N)
         elif algorithm == "hc":
-            goal = hc.solve(N)
+            goal = hc.hc(N)
         elif algorithm == "csp":
-            goal = csp.solve(N)
+            goal = csp.csp(N)
 
         print(goal)
 
