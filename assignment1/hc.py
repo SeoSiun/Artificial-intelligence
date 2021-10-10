@@ -50,12 +50,17 @@ class State:
 
 def hc(n):
     if n==0 : return "no solution"
-    state = State(n)
+    while True:
+      state = State(n)
+      print("start new state: ", state.toString())
 
-    while state.h > 0:
+      while state.h > 0:
         state.getNextState()
-
-    if state.h == 0:
+      
+      if state.h == 0:
         return state.toString()
-    elif state.h == -1:
+
+      if n==2 or n==3:
         return "no solution"
+
+

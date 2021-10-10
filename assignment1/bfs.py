@@ -16,7 +16,6 @@ class State:
 
         for i in range(0, self.n):
             for j in range(i+1, self.n):
-          
                 if self.queen[i] == self.queen[j] or abs(self.queen[i]-self.queen[j])==abs(j-i):
                     return False
                 else: continue
@@ -38,11 +37,9 @@ def bfs(n):
         state = queue.pop(0)
 
         if len(state.queen) == n:
-           
             if state.isGoal():
                 return state.toString()
         else:
-          
             # expand
             for i in range(0, n):
                 queue.append(state.getNextState(i))

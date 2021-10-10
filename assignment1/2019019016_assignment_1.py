@@ -1,6 +1,6 @@
-import bfs
-import hc
-import csp
+from bfs import bfs  
+from hc import hc
+from csp import csp
 
 def main():
     fInput = open("input.txt")
@@ -16,11 +16,11 @@ def main():
 
         # find goal
         if algorithm == "bfs":
-            goal = bfs.bfs(N)
+            goal = bfs(N)
         elif algorithm == "hc":
-            goal = hc.hc(N)
+            goal = hc(N)
         elif algorithm == "csp":
-            goal = csp.csp(N)
+            goal = csp(N)
 
         print(goal)
 
@@ -34,5 +34,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-        
-            

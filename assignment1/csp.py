@@ -1,45 +1,54 @@
-def constraintCheck(queen, var, value):
-    queen[var] = value
-    for i in range(0, len(queen)):
-        if queen[i] == -1: continue
-        for j in range(i+1, len(queen)):
-            if queen[j] == -1: continue
-            if queen[i] == queen[j] or abs(queen[i]-queen[j])==abs(j-i):
-                return False
-    return True
-
 class State:
-    def __init__(self, n):
-        self.queen = [-1 for i in range(0,n)]
-        self.n = n
+    def __init__(self, variables, n, varCnt):
+      # keep track remaining legal value for unassinged variables
+      # if assigned, keep assigned value
+      self.variables = variables
+      self.n = n
+      self.varCnt = varCnt
 
-    def getNextState(self, var, value):
-        self.queen[var] = value
+    def getNextState(self, value):
+      # deep copy
+      newVariables = []
+      for _ in range(0,self.n):
+        newVariables = [var[:] for var in self.variables]
+
+      # assign value
+      newVariables[self.varCnt] = [value]
+
+      # remove new illegal value
+      for i in range(self.varCnt+1, self.n):
+        newVariables[i] = [var for var in newVariables[i] 
+        if var != value 
+        and var != value+(i-self.varCnt) 
+        and var != value-(i-self.varCnt)]
+
+      return State(newVariables, self.n, self.varCnt+1)
+    
+    # check value is legal
+    def isLegalValue(self, value):
+      if self.variables[self.varCnt].count(value) > 0: return True
+      return False 
 
     def toString(self):
-        goal = ""
-        for i in range(0, self.n):
-            goal = goal + str(self.queen[i]+1) + " "
-        return goal              
+      goal = ""
+      for i in range(0, self.n):
+        goal = goal + str(self.variables[i][0]+1) + " "
+      return goal  
+         
         
 def csp(n):
     if n==0: return "no solution"
 
-    state = State(n)
+    stack = []
+    stack.append(State([[i for i in range(0,n)] for i in range(0,n)], n, 0))
 
-    return recursiveCSP(state, 0)
+    while len(stack) > 0:
+      state = stack.pop()
 
-def recursiveCSP(state, var):
-    if var >= state.n: return state.toString()
+      if state.varCnt == n: return state.toString()
 
-    for i in range(0,state.n):
-        if constraintCheck(state.queen.copy(),var,i):
-            state.getNextState(var, i)
-            result = recursiveCSP(state, var+1)
-            if result != "no solution":
-                return result
-            state.getNextState(var,-1)
+      for i in range(0,n):
+        if state.isLegalValue(n-1-i): 
+          stack.append(state.getNextState(n-1-i))
+
     return "no solution"
-        
-            
-            
