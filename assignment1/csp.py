@@ -4,6 +4,7 @@ class State:
       # if assigned, keep assigned value
       self.variables = variables
       self.n = n
+      # num of assigned variable
       self.varCnt = varCnt
 
     def getNextState(self, value):
@@ -28,6 +29,10 @@ class State:
     def isLegalValue(self, value):
       if self.variables[self.varCnt].count(value) > 0: return True
       return False 
+    
+    def isEmptyVariable(self):
+      if len(self.variables[self.varCnt]) ==0 : return True
+      return False
 
     def toString(self):
       goal = ""
@@ -45,9 +50,14 @@ def csp(n):
     while len(stack) > 0:
       state = stack.pop()
 
+      # if all variable is assigned, return result
       if state.varCnt == n: return state.toString()
 
+      # if variable has no leagal value, terminate
+      if state.isEmptyVariable(): continue
+
       for i in range(0,n):
+        # if value is not legal, assign value 
         if state.isLegalValue(n-1-i): 
           stack.append(state.getNextState(n-1-i))
 
