@@ -10,15 +10,15 @@ class State:
     self.h = self.getH(self.queens)
   
   # get num of pairs of queens that are attacking each other
-  def getH(self, tmp):
+  def getH(self, queens):
     cnt=0
     for i in range(0, self.n):
         for j in range(i+1, self.n):
-            if tmp[i] == tmp[j] or abs(tmp[i]-tmp[j])==abs(j-i):
+            if queens[i] == queens[j] or abs(queens[i]-queens[j])==abs(j-i):
                 cnt = cnt+1
     return cnt
 
-  def getNextState(self):
+  def moveQueen(self):
       minH = self.h
       # coordinate to move
       coord = []
@@ -49,21 +49,19 @@ class State:
       else: self.h = -1
 
   def toString(self):
-      goal = ""
-      for i in range(0, self.n):
-          goal = goal + str(self.queens[i]+1) + " "
-      return goal   
+    goal = ""
+    for i in range(0, self.n):
+        goal = goal + str(self.queens[i]+1) + " "
+    return goal   
 
 def hc(n):
-  if n==0 or n==2 or n==3 : return "no solution"
+  if n==2 or n==3 : return "no solution"
   
   while True:
     state = State(n)
 
     # move until find peak
-    while state.h > 0: state.getNextState()
+    while state.h > 0: state.moveQueen()
     
     # peak == goal
     if state.h == 0: return state.toString()
-
-

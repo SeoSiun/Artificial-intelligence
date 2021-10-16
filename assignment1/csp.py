@@ -33,6 +33,10 @@ class State:
     def isEmptyVariable(self):
       if len(self.variables[self.varCnt]) ==0 : return True
       return False
+    
+    def isGoal(self):
+      if self.varCnt == self.n: return True
+      return False
 
     def toString(self):
       goal = ""
@@ -42,8 +46,6 @@ class State:
          
         
 def csp(n):
-    if n==0: return "no solution"
-
     stack = []
     stack.append(State([[i for i in range(0,n)] for i in range(0,n)], n, 0))
 
@@ -51,7 +53,7 @@ def csp(n):
       state = stack.pop()
 
       # if all variable is assigned, return result
-      if state.varCnt == n: return state.toString()
+      if state.isGoal(): return state.toString()
 
       # if variable has no leagal value, terminate
       if state.isEmptyVariable(): continue
