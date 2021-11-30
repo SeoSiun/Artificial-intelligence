@@ -7,12 +7,12 @@ class QLearning:
     self.Q = []
     self.initQ()
     #  Down: +5 | Up: -5 | Right: +1 | Left: -1
-    self.ACTION = {'D': 5, 'U': -5, 'R': 1, 'L': -1}
+    self.action = {'D': 5, 'U': -5, 'R': 1, 'L': -1}
     # S: Start, G: Goal, T: Bonus, B: Bomb, P: Normal Path
-    self.REWARD = {'S': 0, 'G': 100, 'T': 10, 'B': -100, 'P': 0}
+    self.reward = {'S': 0, 'G': 100, 'T': 1, 'B': -100, 'P': 0}
     self.r = 0.9
   
-  # set Q(s,a) = 0 for available (s,a) pair
+  # initialize Q(s,a) = 0 for available (s,a) pair
   def initQ(self):
     for s in range(0,25):
       tmp = {'D': 0, 'U': 0, 'R': 0, 'L': 0}
@@ -38,18 +38,13 @@ class QLearning:
       # select action ramdomly       
       curAction = random.choice(list(self.Q[curState]))
       # s'
-      newState = curState + self.ACTION[curAction]
+      newState = curState + self.action[curAction]
       # r(s,a) : immediate reward
-      curReward = self.REWARD[self.map[newState]]
+      curReward = self.reward[self.map[newState]]
       # Q(s,a) = r(s,a) + r * max((Q(s',a')))
       self.Q[curState][curAction] = curReward + self.r * max(self.Q[newState].values())
       # s = s'
       curState = newState
-      
-    ##############
-    for i in range(0,25):
-      print(self.Q[i])
-    ##############
     
     self.printOutput()
 
@@ -64,7 +59,7 @@ class QLearning:
     fOutput.write(str(curState))
     while self.map[curState] != 'G':
       # select action that maximize Q(s,a) and update curState
-      curState = curState + self.ACTION[max(self.Q[curState],key = self.Q[curState].get)]
+      curState = curState + self.action[max(self.Q[curState],key = self.Q[curState].get)]
       fOutput.write(" " + str(curState))
     # print max Q(s,a) at start point
     fOutput.write("\n" + str(max(self.Q[self.sPoint].values())))
